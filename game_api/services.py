@@ -72,27 +72,45 @@ def next_roll(rolls, index):
     return rolls[index].knocked_down_pins if index < len(rolls) else 0
 
 
+from openai import OpenAI
+from decouple import config
+
+
 def generate_game_summary(game):
+    """
+    Generates a summary of a bowling game using OpenAI's API.
+
+    Args:
+        game (Game): The Game instance for which to generate the summary.
+
+    Returns:
+        str: A summary of the bowling game, including total rolls and pin counts for each roll.
+    """
     client = OpenAI(api_key=config("OPENAI_API_KEY"))
 
+    # Retrieve all rolls for the game, ordered by creation time
     rolls = game.rolls.all().order_by("created_at")
 
-    # prompt = "Summarize a bowling game with he following stats \n"
-    # prompt += f"Game ID: {game.id}\n"
-    # prompt += f"Total Rolls: {len(rolls)}\n"
+    # Prepare the prompt for the OpenAI API
     prompt = (
-            f"Summarize a bowling game with the following stats:\n"
-            f"Game ID: {game.id}\n"
-            f"Total Rolls: {len(rolls)}\n"
-        )
+        f"Summarize a bowling game with the following stats:\n"
+        f"Game ID: {game.id}\n"
+        f"Total Rolls: {len(rolls)}\n"
+    )
 
+    # Add details of each roll to the prompt
     for roll in rolls:
-        prompt += f"Frame {roll.frame}, Roll {roll.roll_number}: {
-            roll.knocked_down_pins} pins knocked down.\n"
+        prompt += f"Frame {roll.frame}, Roll {roll.roll_number}: {roll.knocked_down_pins} pins knocked down.\n"
 
+    # Indicate if the game is completed or still in progress
     prompt += "Game Completed" if game.completed else "Game In Progress"
 
+    # Call the OpenAI API to generate the summary
     response = client.chat.completions.create(
-        model="gpt-4o-mini", messages=[{"role": "user", "content": prompt}],temperature=0.8
+        model="gpt-4o-mini",  # Specify the model to use
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.8,  # Set the temperature for response variability
     )
+
+    # Return the generated summary content
     return response.choices[0].message.content

@@ -64,12 +64,11 @@ class GameRollView(views.APIView):
                 {"error": "knocked_down_pins is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-            
 
         # Validate knocked_down_pins
         if (
-            not isinstance(knocked_down_pins, int) or
-            knocked_down_pins < 0
+            not isinstance(knocked_down_pins, int)
+            or knocked_down_pins < 0
             or knocked_down_pins > 10
         ):
             return Response(
@@ -173,7 +172,13 @@ class GameRollView(views.APIView):
 
         # Serialize and return the roll data
         serializer = RollSerializer(roll)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                "message": "Roll recorded successfully",
+                "data": serializer.data,
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class GameScoreView(views.APIView):
@@ -204,7 +209,7 @@ class GameScoreView(views.APIView):
 
         # Calculate the score for the game
         score = calculate_score(game=game)
-        return Response({"score": score}, status=status.HTTP_200_OK)
+        return Response({"game_id": game.id, "score": score}, status=status.HTTP_200_OK)
 
 
 class GameSummaryView(views.APIView):
@@ -234,4 +239,6 @@ class GameSummaryView(views.APIView):
         # Generate the game summary
         summary = generate_game_summary(game)
 
-        return Response({"summary": summary}, status=status.HTTP_200_OK)
+        return Response(
+            {"game_id": game.id, "summary": summary}, status=status.HTTP_200_OK
+        )
