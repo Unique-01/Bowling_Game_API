@@ -19,21 +19,22 @@ This bowling game API project allows users to create games, record rolls, get th
         python -m venv venv
         ```
         This command creates a new directory called venv in your project folder containing the virtual environment.
-    2.  **Activate the Virtual Environment** - **For macOS and Linux**:
+    2.  **Activate the Virtual Environment** 
+          - **For macOS and Linux**:
 
-              ```bash
-              source venv/bin/activate
-              ```
-            - **For Windows(Command Prompt)**:
+            ```bash
+            source venv/bin/activate
+            ```
+          - **For Windows(Command Prompt)**:
 
-              ```bash
-              venv\Scripts\activate
-              ```
-            - **For Windows (PowerShell)**:
+            ```bash
+            venv\Scripts\activate
+            ```
+          - **For Windows (PowerShell)**:
 
-              ```bash
-              .\venv\Scripts\Activate
-              ```
+            ```bash
+            .\venv\Scripts\Activate
+            ```
 
         **Note**:
         Make sure you have Python installed on your system. If you have multiple versions of Python installed, you might need to use `python` or `python3` as per your installation.
@@ -42,12 +43,16 @@ This bowling game API project allows users to create games, record rolls, get th
     ```bash
     pip install -r requirements.txt
     ```
+
 4.  **Set up Environmental variables**  
     Create a `.env` file in the project root directory with the following keys:
-    `bash
+    ```bash
     SECRET_KEY=your-django-secret-key
     OPENAI_API_KEY=your-openai-api-key
-    ` - `SECRET_KEY`: Django secret key for cryptography. - `OPENAI_API_KEY`: API key for accessing OpenAI's GPT model.
+    ```
+    - `SECRET_KEY`: Django secret key for cryptography. 
+    - `OPENAI_API_KEY`: API key for accessing OpenAI's GPT model.
+
 5.  **Apply Migrations**
     ```bash
     python manage.py migrate
@@ -117,12 +122,15 @@ This bowling game API project allows users to create games, record rolls, get th
 
         ```json
         {
-            "id": 1,
-            "game": 1,
-            "frame": 1,
-            "roll_number": 1,
-            "knocked_down_pins": 5,
-            "created_at": "2024-10-20T20:24:01.984493Z"
+            "message": "Roll recorded successfully",
+            "data": {
+                "id": 1,
+                "game": 1,
+                "frame": 1,
+                "roll_number": 1,
+                "knocked_down_pins": 5,
+                "created_at": "2024-10-20T21:14:01.014099Z"
+            }
         }
         ```
 
@@ -134,6 +142,7 @@ This bowling game API project allows users to create games, record rolls, get th
 
         ```json
         {
+            "game_id":1,
             "score": 5
         }
         ```
@@ -146,6 +155,7 @@ This bowling game API project allows users to create games, record rolls, get th
 
         ```json
         {
+            "game_id":1,
             "summary": "In Game ID 1, there has been 1 roll so far in Frame 1, where 5 pins were knocked down. The game is currently in progress."
         }
         ```
