@@ -9,16 +9,37 @@ This bowling game API project allows users to create games, record rolls, get th
     cd Bowling_Game_API
     ```
 
-2. **Set Up Virtual Environment**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-3. **Install Dependencies**
+2. **Setting Up a Virtual Environment**
+     1. **Create a Virtual Environment**
+          - Open your terminal or command prompt.  
+            
+          ```bash
+          python -m venv venv
+          ```
+          This command creates a new directory called venv in your project folder containing the virtual environment.
+     2. **Activate the Virtual Environment**
+        - **For macOS and Linux**:
+          
+          ```bash
+          source venv/bin/activate
+          ```
+        - **For Windows(Command Prompt)**:
+
+          ```bash
+          venv\Scripts\activate
+          ```
+        - **For Windows (PowerShell)**:
+
+          ```bash
+          .\venv\Scripts\Activate
+          ```
+    **Note**:
+    Make sure you have Python installed on your system. If you have multiple versions of Python installed, you might need to use `python` or `python3` as per your installation.
+4. **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
-4. **Set up Environmental variables**  
+5. **Set up Environmental variables**  
 Create a `.env` file in the project root directory with the following keys:
     ```bash
     SECRET_KEY=your-django-secret-key
@@ -26,11 +47,11 @@ Create a `.env` file in the project root directory with the following keys:
     ```
     - `SECRET_KEY`: Django secret key for cryptography.
     - `OPENAI_API_KEY`: API key for accessing OpenAI's GPT model.
-5. **Apply Migrations**
+6. **Apply Migrations**
     ```bash
     python manage.py migrate
     ```
-6. **Run the server**
+7. **Run the server**
     ```bash
     python manage.py runserver
     ```
